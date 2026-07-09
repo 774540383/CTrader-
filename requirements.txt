@@ -10,3 +10,5 @@ openai
 httpx
 python-telegram-bot
 websockets
+sqlalchemy
+pytest
