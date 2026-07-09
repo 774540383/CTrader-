@@ -1,7 +1,7 @@
 """
 telegram/bot.py
 Telegram integration: outbound alerts (existing behaviour preserved) plus
-inbound command handling for status/positions/dashboard queries.
+inbound command handling for status/positions/history queries.
 """
 import requests
 import threading
@@ -31,11 +31,10 @@ def send_message(message: str):
 
 def _handle_command(text: str) -> str:
     text = text.strip().lower()
+    from telegram.commands import cmd_status, cmd_history, cmd_help
 
     if text in ("/status", "status"):
-        from risk.protection import is_in_cooldown
-        cooldown = "YES" if is_in_cooldown() else "NO"
-        return f"Bot is running.\nCooldown active: {cooldown}"
+        return cmd_status()
 
     if text in ("/positions", "positions"):
         from ctrader.positions import get_open_positions
@@ -44,8 +43,11 @@ def _handle_command(text: str) -> str:
             return "No open positions."
         return "\n".join(str(p) for p in positions)
 
+    if text in ("/history", "history"):
+        return cmd_history()
+
     if text in ("/help", "help"):
-        return "Commands: /status, /positions, /help"
+        return cmd_help()
 
     return None
 
