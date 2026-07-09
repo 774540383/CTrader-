@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: gold-ai-trading-agent
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 8000
+
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+
+      - key: CTRADER_CLIENT_ID
+        sync: false
+
+      - key: CTRADER_SECRET
+        sync: false
+
+      - key: CTRADER_ACCESS_TOKEN
+        sync: false
+
+      - key: CTRADER_REFRESH_TOKEN
+        sync: false
+
+      - key: CTRADER_ACCOUNT_ID
+        sync: false
+
+      - key: TELEGRAM_TOKEN
+        sync: false
+
+      - key: TELEGRAM_CHAT_ID
+        sync: false
